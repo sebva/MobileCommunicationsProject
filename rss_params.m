@@ -11,20 +11,19 @@ s_x = 56
 %y coordinate of target
 s_y = 72
 
-%dvector containing distances from source to anchors
+%vector containing distances from source to anchors
 for i = 1:4;
 	dist[i] = sqr((s_x-a_x[i])^2+(s_y-a_y[i])^2)
 end;
 
-%normally distributed random variable that models the shadowing phenomenonin dB
-mu=0;sigma=1;
-noise = sigma *randn(1,4)+mu
+%normally distributed random variable that models the shadowing phenomenon (dB)
+noise = set_noise(0, 1, 4)
 
 %path loss exponent in dB
 alpha = 3
 
-%reference power at reference distance in dB
+%reference power at reference distance (dB)
 P_0 = 0
 
-%reference distance in m
+%reference distance (m)
 d_0 = 1
