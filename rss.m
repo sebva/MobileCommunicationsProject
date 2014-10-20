@@ -10,5 +10,5 @@ function[rss]=compute_RSS(dist, noise, alpha, P_0, d_0);
 %d_0: reference distance
 %
 for i=1:4;
-	rss[i] = P_0 - (10*alpha*log10(dist[i]/d_0)) + n[i]
+	rss[i] = P_0 - (10*alpha*log10(dist[i]/d_0)) + noise[i]
 end;
