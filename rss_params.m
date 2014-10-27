@@ -6,7 +6,6 @@ a_x = [0, 0, 1000, 1000]
 %y coordinates of anchors
 a_y = [0, 1000, 1000, 0]
 
-
 %path loss exponent (dB)
 alpha = 3
 
