@@ -10,7 +10,7 @@ a_y = [0, 1000, 1000, 0]
 alpha = 3
 
 %reference power at reference distance (dB)
-P_0 = 0
+P_0 = -10
 
 %reference distance (m)
 d_0 = 1

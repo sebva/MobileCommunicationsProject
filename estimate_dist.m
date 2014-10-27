@@ -8,5 +8,5 @@ function[estimated_dist]=estimate_dist(rss, noise, alpha, P_0, d_0)
 %d_0: reference distance (m)
 
 for i = 1:4;
-	estimated_dist[i] = ((P_0+n[i]-rss[i])/10*alpha)^10*d_0
+	estimated_dist(i) = ((P_0+noise(i)-rss(i))/10*alpha)^10*d_0;
 end;
