@@ -37,7 +37,7 @@ function x = wls(base_stations, distances)
         end;
     end;
 
-    x = ((transpose(H) * (S \ H)) \ transpose(H)) * (S \ b);
+    x = transpose(((transpose(H) * (S \ H)) \ transpose(H)) * (S \ b));
    
 end
 
