@@ -8,4 +8,4 @@ function[noise]=set_noise(mu, sigma, length)
 %mu: mean
 %sigma: deviation
 
-noise = sigma*randn(1,length)+mu;
+noise = sigma*randn(1,length)+mu
