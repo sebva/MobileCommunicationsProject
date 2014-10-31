@@ -30,7 +30,14 @@ for i = 1:100;
 		
 		%estimate the coordinates using lls algorithm
 		lls_estimated_coord(i:i,1:2)  = lls(base_stations, estimated_dist);
-		
-		%estimate the coordinates using wlls algorithm
+        
 			
 end;
+
+% create matrix of size (n,2) storing actual coordinates for n points
+actual_coord = horzcat(s_x(:), s_y(:));
+%compute error vector
+error = compute_error(actual_coord, lls_estimated_coord);
+
+cdfplot(error);
+
