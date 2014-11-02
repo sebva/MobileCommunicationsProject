@@ -9,16 +9,9 @@ function x = lls( base_stations, distances )
     assert(size(base_stations, 1) == size(distances, 2));
     assert(size(base_stations, 2) == 2);
     
-    n = size(distances, 2);
-    b = zeros([n-1, 1]); % Preallocate the array
-    h = base_stations(2:n, 1:2) * 2;
+    [h, b] = lls_wls_base(base_stations, distances);
+    
     ht = transpose(h);
-
-    % Compute vector b
-    for i = 2:n;
-        b(i-1) = (base_stations(i, 1) ^ 2) + (base_stations(i, 2) ^ 2)...
-            - (distances(i) ^ 2) + (distances(1) ^ 2);
-    end
     
     % Compute the estimated location relative to base_station 1 and
     % translate in absolute coordinates.
