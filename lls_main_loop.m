@@ -6,10 +6,12 @@ s_x = randi([1,999],1,100);
 s_y = randi([1,999],1,100);
 
 % create the matrix with the coordinates of the base stations to fit the input parameters of wlls and lls
-
 for i = 1:4;
   base_stations(i:i,1:2) = [a_x(i), a_y(i)];  
 end;
+
+% create matrix of size (n,2) storing actual coordinates for 100 points
+actual_coord = horzcat(s_x(:), s_y(:));
 
 %initialise the matrices for storing the estimated coordinates
 lls_estimated_coord = zeros(100,2);
@@ -34,10 +36,9 @@ for i = 1:100;
 			
 end;
 
-% create matrix of size (n,2) storing actual coordinates for n points
-actual_coord = horzcat(s_x(:), s_y(:));
 %compute error vector
 error = compute_error(actual_coord, lls_estimated_coord);
 
+%plot the cumulative distribution function of error
 cdfplot(error);
 
