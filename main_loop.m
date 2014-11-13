@@ -12,7 +12,7 @@ s_y = randi([1,999],1,nb_iterations);
 % Estimation functions list
 functions = {@lls @wls};
 %Colors for the resulting plots
-color = {'r', 'b'}
+color = {'r', 'b'};
 
 % create the matrix with the coordinates of the base stations to fit the input parameters of wlls and lls
 

@@ -12,32 +12,24 @@ function x = wls(base_stations, distances)
     % Not sure if the code is 100% n-proof, so assert size=4
     assert(size(distances, 2) == 4);
 
-    dstd = std(distances);
-    n = size(distances, 2);
+    n = size(distances, 2); % Compute alpha
     
-    % Compute alpha
-    totalstd = dstd * (log(10) / (10 * (n -1)));
     
+    %building WLS
     [H, b] = lls_wls_base(base_stations, distances);
 
-    %building WLS
     %building matrix S
-    var = zeros([n, 1]);
     S = zeros([n-1, n-1]);
-    e42 = exp(4 * totalstd ^ 2);
-    for i = 1:n;
-        var(i) = e42 * (e42 * distances(i)^4 + 1);
-    end;
     for i = 1:n-1;
         for j = 1:n-1;
-            S(j, i) = var(1);
+            var = distances(1)^4; %Computes the variance for every distance
             if i == j;
-                S(j, i) = S(j, i) + var(i + 1);
+                var = distances(1)^4 + distances(i+1)^4; %The variances for the diagonal of the matrix is different
             end;
+            S(i,j) = var;
         end;
     end;
-
+    
     x = transpose(((transpose(H) * (S \ H)) \ transpose(H)) * (S \ b));
    
 end
-

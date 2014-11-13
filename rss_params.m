@@ -2,15 +2,15 @@
 %the anchors form a rectange;
  
 %x coordinates of anchors
-a_x = [0, 0, 1000, 1000]
+a_x = [0, 0, 1000, 1000];
 %y coordinates of anchors
-a_y = [0, 1000, 1000, 0]
+a_y = [0, 1000, 1000, 0];
 
 %path loss exponent (dB)
-alpha = 3
+alpha = 3;
 
 %reference power at reference distance (dB)
-P_0 = -10
+P_0 = -10;
 
 %reference distance (m)
-d_0 = 1
+d_0 = 1;
