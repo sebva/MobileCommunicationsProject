@@ -6,10 +6,11 @@
 estimation_functions = {@lls @wls};
 
 % Mobility patterns
-mob_patterns = {@random};
+mob_patterns = {@random @circle};
 
 mob_patterns_parameters = {
-    { 100 } % mob_random(nb_locations)
+    { 100 },... % mob_random(nb_locations)
+    { 0, -1000, 500, 360 } % mbCircle(x0, y0, r, angle)
     };
 
 % Colors for the resulting plots
