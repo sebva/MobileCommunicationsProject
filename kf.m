@@ -16,7 +16,7 @@ Ht = transpose(H);
 At = transpose(A);
 
 %pre-allocate the output matrix of estimated states
-filtered_states = zeros(nb_states, size(measured_states, 2));
+filtered_states = zeros(nb_states, size(X_0,1));
 
 %initialise matrix of covariance matrices for all states
 P = cell(nb_states);
@@ -31,21 +31,20 @@ P_update = P_0;
 
 %Process Loop
 %for each state perform time update and measurement update
-for k=1:nb_states
+for k=1:nb_states;
     %Time Update: project the state and the covariance matrix ahead
     if  k > 1
-        state_update = A * filtered_states(k-1)
+        state_update = A * transpose(filtered_states(k-1,1:end));
         %TODO: add process noise to P_update
-        P_update = A * P{k-1} * At + transpose(p_noise)
+        P_update = A * P{k-1} * At + transpose(p_noise);
     end
     %Measurement Update: update the state estimate and covariance by using
     %Kalman Gain
     
     %compute Kalman Gain for k
-    KG = (P_update*Ht)/(H*P_update*Ht + transpose(m_noise))
-    
+    KG = (P_update*Ht)/(H*P_update*Ht + transpose(m_noise));
     %update the estimate
-    filtered_states(k) = state_update + (KG * (transpose(measured_states(k)) - (H * state_update)));
+    filtered_states(k, 1:end) = transpose(state_update + KG * (transpose(measured_states(k)) - (H * state_update)));
     %update error covariance
     P{k} = (P_0 - (KG * H)) * P_update;     
 end;

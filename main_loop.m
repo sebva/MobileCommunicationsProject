@@ -41,6 +41,7 @@ for i = 1:nb_iterations;
 
     for func_idx = 1:size(functions, 2);
         %estimate the coordinates using all algorithms
+        %(currently implemented algorithms: LLS, WLS)
         estimated_coord{func_idx}(i, :) = functions{func_idx}(base_stations, estimated_dist);
     end;
 end;
