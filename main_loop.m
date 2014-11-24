@@ -1,60 +1,74 @@
-%generate 100 source nodes within the rectangle formed by the anchor nodes
-nb_iterations = 100;
-nb_base_stations = size(a_x, 2);
+addpath('./mobility_patterns/');
+addpath('./estimation_functions/');
 
-% vector of x coordinates of the source nodes
-s_x = randi([1,999],1,nb_iterations);
-% vector of y coordinates of the source nodes
-s_y = randi([1,999],1,nb_iterations);
+% Load parameters from external file
+params;
 
-%TODO: add coordinates for other mobility patterns, refactor code
+% Check the correctness of the base_stations matrix
+assert(size(base_stations, 2) == 2);
 
-% Estimation functions list
-functions = {@lls @wls};
-%Colors for the resulting plots
-color = {'r', 'b'};
+% Map each function name to the parameters that we need to pass
+mob_patterns_parameters_map = containers.Map(...
+    cellfun(@(x) func2str(x), mob_patterns, 'UniformOutput', false),...
+    mob_patterns_parameters);
+errors = cell(size(mob_patterns, 2) * size(estimation_functions, 2));
 
-% create the matrix with the coordinates of the base stations to fit the input parameters of wlls and lls
-
-for i = 1:nb_base_stations;
-    base_stations(i:i,1:2) = [a_x(i), a_y(i)];  
+i = 1;
+for mob_pattern = mob_patterns;
+    for estimation_function = estimation_functions;
+        errors{i} = test_function(...
+            estimation_function{1}, mob_pattern{1}, base_stations,...
+            mob_patterns_parameters_map(...
+            func2str(mob_pattern{1})), alpha, mu, sigma, P_0, d_0...
+            );
+        i = i + 1;
+    end;
 end;
 
-%initialise the matrices for storing the estimated coordinates
-estimated_coord = cell(2);
-for i = 1:size(functions, 2);
-    estimated_coord{i} = zeros(nb_iterations, 2);
-end;
+% Graph plotting stuff
+% 2 figures containing many subplots
 
-% for each source node compute the distance to the anchors, estimate rss,
-% estimate distance from rss, estimate coordinates using the algorithms
+close all
 
-for i = 1:nb_iterations;
-    %compute distances to the anchors for each source node
-    dist = compute_dist(a_x, a_y, s_x(1,i), s_y(1,i));
+nb_est_func = size(estimation_functions, 2);
+nb_mob_patterns = size(mob_patterns, 2);
 
-    %estimate the rss for each source node
-    rss = compute_rss(dist, set_noise(0,1,nb_base_stations), alpha, P_0, d_0);
+% Colormap
+cc = lines(max(nb_est_func, nb_mob_patterns));
 
-    %estimate distances to the anchor nodes based on the rss vector
-    estimated_dist = estimate_dist(rss, set_noise(0,1,nb_base_stations), alpha, P_0, d_0);
-
+<<<<<<< HEAD
     for func_idx = 1:size(functions, 2);
         %estimate the coordinates using all algorithms
         %(currently implemented algorithms: LLS, WLS)
         estimated_coord{func_idx}(i, :) = functions{func_idx}(base_stations, estimated_dist);
+=======
+figure('Name', 'Estimation functions')
+for i = 1:nb_est_func;
+    subplot(nb_est_func, 1, i)
+    for j = 1:nb_mob_patterns;
+        h = cdfplot(errors{i + (j -1) * nb_est_func});
+        set(h, 'DisplayName', func2str(mob_patterns{j}), 'Color', cc(j, :))
+        hold on
+>>>>>>> 7e33a1367b834ff693252b00779e4d3b96880020
     end;
+    hold off
+    xlabel('Localization error [m]')
+    ylabel('CDF')
+    legend('show')
+    title(func2str(estimation_functions{i}))
 end;
 
-% create matrix of size (n,2) storing actual coordinates for n points
-actual_coord = horzcat(s_x(:), s_y(:));
-
-
-for func_idx = 1:size(functions, 2);
-    %compute error vector
-    error = compute_error(actual_coord, estimated_coord{func_idx});
-    h = cdfplot(error);
-    % not sure this should be before or after hol on, check!
-    set(h,'color',color{func_idx});
-    hold on
+figure('Name', 'Mobility patterns')
+for i = 1:nb_mob_patterns;
+    subplot(nb_mob_patterns, 1, i)
+    for j = 1:nb_est_func;
+        h = cdfplot(errors{(i -1) * nb_mob_patterns + j});
+        set(h, 'DisplayName', func2str(estimation_functions{j}), 'Color', cc(j, :))
+        hold on
+    end;
+    hold off
+    xlabel('Localization error [m]')
+    ylabel('CDF')
+    legend('show')
+    title(func2str(mob_patterns{i}))
 end;
