@@ -8,7 +8,7 @@ function[filtered_states] = kf(measured_states, X_0, P_0, A, H, p_noise, m_noise
 %X_0: initial state
 %P_0: initial covariance matrix
 %Output:
-%filtered_states: improved estimated states of the mobile node
+%filtered_states: improved estimated coordinates of the mobile node
 
 %Initialisations:
 nb_states = size(measured_states, 1);
@@ -31,18 +31,18 @@ P_update = P_0;
 
 %Process Loop
 %for each state perform time update and measurement update
-for k=1:nb_states;
+for k=1:nb_states
     %Time Update: project the state and the covariance matrix ahead
     if  k > 1
-        state_update = A * filtered_states(k-1);
+        state_update = A * filtered_states(k-1)
         %TODO: add process noise to P_update
-        P_update = A * P{k-1} * At + transpose(p_noise{k});
+        P_update = A * P{k-1} * At + transpose(p_noise)
     end
     %Measurement Update: update the state estimate and covariance by using
     %Kalman Gain
     
     %compute Kalman Gain for k
-    KG = (P_update*Ht)/(H*P_update*Ht + transpose(m_noise{k}));
+    KG = (P_update*Ht)/(H*P_update*Ht + transpose(m_noise))
     
     %update the estimate
     filtered_states(k) = state_update + (KG * (transpose(measured_states(k)) - (H * state_update)));
