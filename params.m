@@ -9,12 +9,9 @@ estimation_functions = {@lls @wls};
 mob_patterns = {@random @circle};
 
 mob_patterns_parameters = {
-    { 100 },... % mob_random(nb_locations)
-    { 0, -1000, 500, 360 } % mbCircle(x0, y0, r, angle)
+    { 100 },... % random(nb_locations)
+    { 0, -1000, 500, 360 } % circle(x0, y0, r, angle)
     };
-
-% Colors for the resulting plots
-color = {'r', 'b'};
 
 % Coordinates of the anchor nodes
 base_stations = [

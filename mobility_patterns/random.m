@@ -1,5 +1,5 @@
 function [ s_x, s_y ] = random( nb_locations )
-%MOB_RANDOM Random mobility pattern
+% RANDOM Random mobility pattern
 %   Returns 2 vectors, 1st=Xs, 2nd=Ys
 
     % vector of x coordinates of the source nodes
