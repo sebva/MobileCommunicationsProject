@@ -36,12 +36,6 @@ nb_mob_patterns = size(mob_patterns, 2);
 % Colormap
 cc = lines(max(nb_est_func, nb_mob_patterns));
 
-<<<<<<< HEAD
-    for func_idx = 1:size(functions, 2);
-        %estimate the coordinates using all algorithms
-        %(currently implemented algorithms: LLS, WLS)
-        estimated_coord{func_idx}(i, :) = functions{func_idx}(base_stations, estimated_dist);
-=======
 figure('Name', 'Estimation functions')
 for i = 1:nb_est_func;
     subplot(nb_est_func, 1, i)
@@ -49,7 +43,6 @@ for i = 1:nb_est_func;
         h = cdfplot(errors{i + (j -1) * nb_est_func});
         set(h, 'DisplayName', func2str(mob_patterns{j}), 'Color', cc(j, :))
         hold on
->>>>>>> 7e33a1367b834ff693252b00779e4d3b96880020
     end;
     hold off
     xlabel('Localization error [m]')
