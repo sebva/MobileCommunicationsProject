@@ -1,4 +1,4 @@
-function [ errors ] = test_function( estimation_function, mobility_pattern, base_stations, mob_pattern_parameters, alpha, mu, sigma, P_0, d_0 )
+function [ errors ] = test_function( estimation_function, mobility_pattern, filter, base_stations, mob_pattern_parameters, alpha, mu, sigma, P_0, d_0 )
 %TEST_FUNCTION Test an estimation function on a specific mobility pattern
 %   Test the estimation function passed in parameter as a function handle
 %   with the mobility pattern also specified as a function handle.
@@ -9,7 +9,7 @@ function [ errors ] = test_function( estimation_function, mobility_pattern, base
     anchors_x = base_stations(:, 1);
     anchors_y = base_stations(:, 2);
     
-    [ mobile_x, mobile_y ] = mobility_pattern(mob_pattern_parameters{:});
+    [ mobile_x, mobile_y, s ] = mobility_pattern(mob_pattern_parameters{:});
     
     nb_positions = size(mobile_x, 2);
     nb_base_stations = size(base_stations, 1);
@@ -31,6 +31,10 @@ function [ errors ] = test_function( estimation_function, mobility_pattern, base
 
         %estimate the coordinates using the estimation function
         estimated_coord(i, :) = estimation_function(base_stations, estimated_dist);
+    end;
+    
+    if(~isnumeric(filter));
+        estimated_coord = filter(estimated_coord, [0, 0], s);
     end;
 
     % create matrix of size (n,2) storing actual coordinates for n points
