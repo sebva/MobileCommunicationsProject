@@ -11,7 +11,7 @@ mob_patterns = {@random @circle};
 % Specific parameters relative to each mobility pattern
 mob_patterns_parameters = {
     { 100 } % random(nb_locations)
-    { 0, -1000, 500, 360 } % circle(x0, y0, r, angle)
+    { 100, 200, 50, 5 } % circle(x0, y0, r, angle)
 };
 
 % Filters
