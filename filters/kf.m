@@ -36,7 +36,8 @@ for k=1:nb_states;
     if  k > 1
         state_update = A * transpose(filtered_states(k-1,1:end));
         %TODO: add process noise to P_update
-        P_update = A * P{k-1} * At + transpose(p_noise);
+        %P_update = A * P{k-1} * At + transpose(p_noise);
+        P_update = A * P{k-1} * At;
     end
     %Measurement Update: update the state estimate and covariance by using
     %Kalman Gain
