@@ -34,7 +34,7 @@ function [ errors ] = test_function( estimation_function, mobility_pattern, filt
     end;
     
     if(~isnumeric(filter));
-        estimated_coord = filter(estimated_coord, [0, 0], s);
+        estimated_coord = filter(estimated_coord, [0, 0, 0, 0], s);
     end;
 
     % create matrix of size (n,2) storing actual coordinates for n points

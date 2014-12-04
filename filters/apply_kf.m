@@ -29,20 +29,16 @@ if state_size == 2
     A = diag(1,1);
     H = diag(1,1);
     %initial error covariance set to 0
-    P_0 = zeros(2);
+    P_0 = diag([1 1]);
     p_noise = rand(2);
-    %m_noise = rand(2);
-    % not working with the values = 1, getting the following warning:
-    % "Warning: Matrix is singular, close to singular or badly scaled.
-    % Results may be inaccurate. RCOND = NaN."
-    m_noise = [1 1; 1 1];
+    m_noise = diag([1 1]);
 else
     A = [1 T_s 0 0; 0 1 0 0; 0 0 1 T_s; 0 0 0 1];
     H = [1 0 0 0; 0 0 1 0];
     %initial error covariance set to 0
-    P_0 = zeros(4);
+    P_0 = diag([1 1 1 1]);
     p_noise = rand(4);
-    m_noise = rand(2,4);
+    m_noise = diag([1 1]);
 end
 
 %call kf on the initialised parameters
